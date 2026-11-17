@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>屏東 GO 好玩 POC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root{--bg:#E4EEEC;--surface:#fff;--ink:#12302F;--mute:#5B7573;--line:#D3E1DF;--pri:#0E6E7E;--pri-ink:#fff;--acc:#F2A93B;--warn:#D9534F;--ok:#2E9B6A;--chip:#EAF3F2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1F1F;--surface:#133130;--ink:#E7F2F0;--mute:#9DB8B5;--line:#244846;--pri:#3DB4C4;--pri-ink:#06292B;--acc:#F2B955;--chip:#1B3E3D}}
+:root[data-theme="dark"]{--bg:#0B1F1F;--surface:#133130;--ink:#E7F2F0;--mute:#9DB8B5;--line:#244846;--pri:#3DB4C4;--pri-ink:#06292B;--acc:#F2B955;--chip:#1B3E3D}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',system-ui,sans-serif;display:flex;justify-content:center;min-height:100vh}
+.phone{width:100%;max-width:420px;height:100vh;max-height:860px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden}
+@media(min-width:480px){.phone{border-radius:36px;border:10px solid var(--ink);height:860px;box-shadow:0 20px 50px rgba(0,0,0,.25)}}
+.screen{flex:1;overflow-y:auto;padding:18px 18px 12px}
+.screen[hidden]{display:none}
+h1{font-size:26px;font-weight:900;margin:0 0 4px}
+h2{font-size:18px;font-weight:700;margin:22px 0 10px}
+p{margin:0}
+.mute{color:var(--mute);font-size:14px}
+.search{display:flex;gap:10px;align-items:center;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;margin:14px 0;font-size:16px;color:var(--mute);width:100%;text-align:left;cursor:pointer;font-family:inherit}
+.banner{background:var(--pri);color:var(--pri-ink);border-radius:18px;padding:16px 18px;display:flex;gap:12px;align-items:center}
+.banner b{font-size:16px}
+.banner span{font-size:14px;opacity:.9}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 4px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer;font-family:inherit}
+.svc i{font-style:normal;font-size:24px}
+.svc:focus-visible,.tab:focus-visible,.chip:focus-visible,.mode:focus-visible,.pin:focus-visible,.search:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:10px}
+.row{display:flex;align-items:center;gap:12px}
+.grow{flex:1;min-width:0}
+.badge{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;white-space:nowrap}
+.b-ok{background:rgba(46,155,106,.16);color:var(--ok)}
+.b-warn{background:rgba(217,83,79,.16);color:var(--warn)}
+.b-mid{background:rgba(242,169,59,.22);color:#9A6500}
+@media (prefers-color-scheme:dark){.b-mid{color:#F2B955}}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.chip{flex:none;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:8px 14px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit}
+.chip[aria-pressed="true"]{background:var(--pri);color:var(--pri-ink);border-color:var(--pri)}
+.map{position:relative;height:250px;border-radius:20px;overflow:hidden;margin-top:12px;border:1px solid var(--line);background:linear-gradient(160deg,#BFE0E4 0 38%,#D8E9D2 38% 100%)}
+@media (prefers-color-scheme:dark){.map{background:linear-gradient(160deg,#16424A 0 38%,#1D3F33 38% 100%)}}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-100%);border:0;background:var(--surface);border-radius:99px;padding:4px 10px 4px 6px;font-size:12px;font-weight:700;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer;font-family:inherit;display:flex;gap:4px;align-items:center}
+.pin.on{background:var(--acc);color:#2A1B00}
+.me{position:absolute;left:46%;top:60%;width:16px;height:16px;border-radius:50%;background:var(--pri);border:3px solid #fff;box-shadow:0 0 0 8px rgba(14,110,126,.25)}
+.field{display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.field label{display:flex;gap:12px;align-items:center;padding:13px 16px;font-size:15px}
+.field label+label{border-top:1px solid var(--line)}
+.field input{border:0;background:transparent;color:var(--ink);font:inherit;flex:1;outline:none;min-width:0}
+.mode{width:100%;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:10px;color:var(--ink);cursor:pointer;font-family:inherit;display:block}
+.mode[aria-pressed="true"]{border-color:var(--pri)}
+.mode .t{font-size:22px;font-weight:900}
+.legs{display:flex;gap:4px;margin-top:10px;height:8px;border-radius:99px;overflow:hidden}
+.legs span{display:block;height:100%}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);background:var(--chip);border-radius:14px;padding:4px;gap:4px}
+.seg button{border:0;background:transparent;color:var(--mute);border-radius:10px;padding:9px 2px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.sw{appearance:none;width:46px;height:28px;border-radius:99px;background:var(--line);position:relative;cursor:pointer;transition:background .15s;flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .15s}
+.sw:checked{background:var(--pri)}
+.sw:checked::after{transform:translateX(18px)}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);background:var(--surface);border-top:1px solid var(--line);padding:6px 6px calc(8px + env(safe-area-inset-bottom,0px))}
+.tab{border:0;background:transparent;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:700;padding:6px 0;border-radius:12px;cursor:pointer;font-family:inherit}
+.tab i{font-style:normal;font-size:22px}
+.tab[aria-selected="true"]{color:var(--pri)}
+.toast{position:absolute;left:50%;bottom:84px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap}
+.toast.show{opacity:1}
+.note{font-size:12px;color:var(--mute);text-align:center;margin-top:14px}
+.src{display:none;font-size:11px;font-weight:700;background:var(--acc);color:#2A1B00;border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+body.show-src .src{display:inline-block}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:9px 13px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+.btn.p{background:var(--pri);color:var(--pri-ink);border-color:var(--pri)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{background:var(--chip);border-radius:99px;padding:5px 11px;font-size:13px}
+.cctv{position:relative;height:210px;border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#2B3A42 0 45%,#3A4A4F 45% 100%);border:1px solid var(--line)}
+.cctv svg{position:absolute;inset:0;width:100%;height:100%}
+.cctv .live{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.6);color:#fff;border-radius:8px;padding:3px 9px;font-size:12px;font-weight:700}
+.cctv .live b{color:#FF5A52}
+.cctv .tm{position:absolute;right:10px;top:10px;background:rgba(0,0,0,.6);color:#fff;border-radius:8px;padding:3px 9px;font-size:12px;font-variant-numeric:tabular-nums}
+.cctv .nm{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.6);color:#fff;border-radius:8px;padding:4px 10px;font-size:13px}
+@keyframes mv{from{transform:translateX(-40px)}to{transform:translateX(440px)}}
+.car{position:absolute;width:34px;height:14px;border-radius:5px;animation:mv 7s linear infinite}
+@media (prefers-reduced-motion:reduce){.car{animation:none}}
+</style>
+</head>
+<body>
+<div class="phone" id="app">
+
+<section class="screen" id="s-home">
+  <h1>屏東 GO</h1>
+  <p class="mute">今天要去哪裡玩？</p>
+  <button class="search" data-go="route"><span aria-hidden="true">🔍</span>輸入目的地，查交通怎麼去</button>
+  <div class="banner"><span style="font-size:26px" aria-hidden="true">📣</span><div><b>連假出遊提醒</b><br><span>墾丁、恆春方向預計午後壅塞，建議提早出發</span></div></div>
+  <h2>離我最近的站牌<span class="src">借鏡 新加坡</span></h2>
+  <div class="card"><div class="row"><span aria-hidden="true" style="font-size:24px">🚏</span><div class="grow"><b>屏東火車站（步行 3 分鐘）</b><p class="mute">依你的位置自動帶出附近站點</p></div></div>
+  <div class="pills" style="margin-top:10px"><span class="pill">🚌 9189 · 3 分鐘</span><span class="pill">🚌 8201 · 7 分鐘</span><span class="pill">🚆 台鐵 14:32</span></div></div>
+  <div class="card row"><span aria-hidden="true">🔔</span><div class="grow"><b>常用路線：屏東 → 墾丁</b><p class="mute">異常通知已開啟，目前路段壅塞</p></div><button class="btn" data-go="route">規劃</button></div>
+  <h2>常用服務</h2>
+  <div class="grid" id="svcGrid"></div>
+  <h2>即時交通<span class="src">借鏡 香港出行易</span></h2>
+  <div class="card row"><div class="grow"><b>屏東市 → 墾丁</b><p class="mute">國道3 / 台1 · 自駕約 2 小時 10 分</p></div><span class="badge b-warn">壅塞</span></div>
+  <div class="card row"><div class="grow"><b>屏東火車站周邊停車</b><p class="mute">剩餘 86 席</p></div><span class="badge b-ok">充裕</span></div>
+  <div class="card row"><div class="grow"><b>人潮警示：恆春古城</b><p class="mute">目前人潮偏多，建議改訪鄰近景點</p></div><span class="badge b-mid">偏多</span></div>
+  <h2>一日玩法<span class="src">借鏡 攜程</span></h2>
+  <div class="card"><b>海生館親子一日</b><p class="mute">門票 + 接駁公車 + 午餐　NT$ 1,380 起</p><div class="btnrow" style="margin-top:10px"><button class="btn p" data-b="海生館親子一日 NT$ 1,380">預訂</button><button class="btn" data-open="海生館">看景點</button></div></div>
+  <div class="card"><b>墾丁海味兩日遊</b><p class="mute">民宿 1 晚 + 交通 + 海鮮餐　NT$ 3,980 起</p><div class="btnrow" style="margin-top:10px"><button class="btn p" data-b="墾丁海味兩日遊 NT$ 3,980">預訂</button><button class="btn" data-open="海景民宿">看景點</button></div></div>
+</section>
+
+<section class="screen" id="s-map" hidden>
+  <h1>地圖探索</h1>
+  <p class="mute">吃、喝、玩、住，一張地圖找完<span class="src">借鏡 NAVER Map</span></p>
+  <div class="chips" style="margin-top:12px" id="chips"></div>
+  <div class="map" id="map" role="group" aria-label="示意地圖">
+    <svg viewBox="0 0 400 250" preserveAspectRatio="none" aria-hidden="true"><path d="M0 95 C90 70 140 120 230 98 S360 60 400 80" stroke="#fff" stroke-opacity=".7" stroke-width="7" fill="none"/><path d="M120 250 C140 190 190 160 250 130 S330 100 380 0" stroke="#fff" stroke-opacity=".6" stroke-width="5" fill="none"/></svg>
+    <div class="me" title="你的位置"></div>
+  </div>
+  <div id="detail"></div><h2 id="listTitle">附近景點</h2>
+  <div id="list"></div>
+  <button class="chip" id="rand" style="width:100%;margin-top:4px;padding:12px">🎲 隨機驚喜</button>
+</section>
+
+<section class="screen" id="s-route" hidden>
+  <h1>旅程規劃</h1>
+  <p class="mute">跨運具比較時間、費用與停車<span class="src">借鏡 SG + 香港</span></p>
+  <div class="field" style="margin-top:14px">
+    <label>🟢 <input value="屏東火車站" aria-label="出發地"></label>
+    <label>📍 <input value="墾丁大街" aria-label="目的地"></label>
+  </div>
+  <h2>建議路線</h2>
+  <div id="modes"></div>
+  <div class="card" id="park"></div>
+  <div class="btnrow"><button class="btn" id="swap">⇅ 互換起訖點</button><button class="btn" id="favRt">☆ 設為常用路線並通知</button></div>
+  <button class="chip" id="start" style="width:100%;margin-top:10px;background:var(--pri);color:var(--pri-ink);border-color:var(--pri);padding:14px;font-size:16px;font-weight:700">開始導航</button>
+</section>
+
+<section class="screen" id="s-traffic" hidden>
+  <h1>交通</h1>
+  <p class="mute">大眾運輸、路況與停車集中在這裡<span class="src">借鏡 香港出行易</span></p>
+  <div class="seg" style="margin-top:14px" id="seg"></div>
+  <div id="tlist" style="margin-top:14px"></div>
+</section>
+
+<section class="screen" id="s-me" hidden>
+  <h1>我的</h1>
+  <h2 style="margin-top:14px">通知設定</h2>
+  <div class="card row"><div class="grow"><b>常用路線異常通知</b><p class="mute">事故、壅塞、封路時推播</p></div><input type="checkbox" class="sw" checked aria-label="常用路線異常通知"></div>
+  <div class="card row"><div class="grow"><b>人潮警示通知</b><p class="mute">收藏景點人潮偏多時提醒</p></div><input type="checkbox" class="sw" aria-label="人潮警示通知"></div>
+  <h2>我的收藏</h2>
+  <div id="favs"></div>
+  <h2>我的訂單<span class="src">借鏡 攜程</span></h2>
+  <div id="orders"></div>
+  <h2>其他服務</h2>
+  <div class="grid" id="moreGrid"></div>
+  <h2>帳號</h2>
+  <div class="card row"><div class="grow"><b>最新消息 / 常見問題</b></div><span aria-hidden="true">›</span></div>
+  <div class="card row"><div class="grow"><b>今日步數</b></div><b>6,284</b></div>
+  <div class="card row"><div class="grow"><b>顯示借鏡來源標籤</b><p class="mute">標示各功能參考的標竿 APP</p></div><input type="checkbox" class="sw" id="srcT" checked aria-label="顯示借鏡來源標籤"></div>
+  <div class="card row"><div class="grow"><b>深色模式</b></div><input type="checkbox" class="sw" id="dark" aria-label="深色模式"></div>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+
+<nav class="nav" role="tablist" aria-label="主選單">
+  <button class="tab" role="tab" data-t="home" aria-selected="true"><i>🏠</i>首頁</button>
+  <button class="tab" role="tab" data-t="map" aria-selected="false"><i>🗺️</i>地圖</button>
+  <button class="tab" role="tab" data-t="route" aria-selected="false"><i>🧭</i>旅程</button>
+  <button class="tab" role="tab" data-t="traffic" aria-selected="false"><i>🚌</i>交通</button>
+  <button class="tab" role="tab" data-t="me" aria-selected="false"><i>👤</i>我的</button>
+</nav>
+</div>
+
+<script>
+var $=function(s,r){return (r||document).querySelector(s)};
+var tt;
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show')},1800)}
+function show(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.hidden=(s.id!=='s-'+id)});
+  document.querySelectorAll('.tab').forEach(function(b){b.setAttribute('aria-selected',b.dataset.t===id)});
+  var sc=$('#s-'+id);if(sc)sc.scrollTop=0;
+}
+document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){show(b.dataset.t)}});
+document.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){show(b.dataset.go)}});
+
+function tiles(id,items){
+  $(id).innerHTML=items.map(function(x){return '<button class="svc" data-m="'+x[1]+'"><i aria-hidden="true">'+x[0]+'</i>'+x[1]+'</button>'}).join('');
+  $(id).querySelectorAll('.svc').forEach(function(b){b.onclick=function(){
+    var m=b.dataset.m;
+    if(m==='公車'||m==='台鐵'||m==='高鐵'||m==='YouBike'||m==='航班'){show('traffic');setSeg(0)}
+    else if(m==='停車'){show('traffic');setSeg(2)}
+    else toast('Demo：「'+m+'」服務頁')}});
+}
+tiles('#svcGrid',[['🚌','公車'],['🚆','台鐵'],['🚄','高鐵'],['🅿️','停車'],['🚲','YouBike'],['✈️','航班'],['🚢','船舶'],['➕','更多']]);
+tiles('#moreGrid',[['🚦','道安教室'],['🚕','預約派遣'],['🚗','租賃資訊'],['🛍️','屏東GO購'],['🌴','屏東旅遊網'],['❓','常見問題']]);
+
+/* 地圖 */
+var cats=['離我最近','好食','好玩','好眠','好買'];
+var pois=[
+ {n:'海生館',c:'好玩',x:30,y:30,d:'0.8 km',i:'🐠',r:4.6,rv:'12,480',tip:'平日上午人少，建議 9:30 前入園',tk:'門票 NT$ 520',pk:'停車場剩 140 席',bus:'9189 · 3 分鐘'},
+ {n:'墾丁大街夜市',c:'好食',x:66,y:40,d:'1.2 km',i:'🍢',r:4.3,rv:'8,902',tip:'晚間 7 點後人潮最多，建議搭接駁公車',tk:'',pk:'停車場剩 12 席',bus:'9189 · 6 分鐘'},
+ {n:'恆春古城小吃',c:'好食',x:80,y:72,d:'2.4 km',i:'🍜',r:4.5,rv:'3,210',tip:'南門周邊免費停車，步行逛最方便',tk:'',pk:'路邊停車剩 30 席',bus:'9189 · 9 分鐘'},
+ {n:'海景民宿',c:'好眠',x:48,y:22,d:'1.6 km',i:'🛏️',r:4.7,rv:'1,056',tip:'含早餐，可免費接送火車站',tk:'住宿 NT$ 2,480 / 晚',pk:'民宿停車免費',bus:'9189 · 12 分鐘'},
+ {n:'在地伴手禮店',c:'好買',x:22,y:68,d:'0.5 km',i:'🛍️',r:4.4,rv:'642',tip:'黑糖糕、洋蔥加工品必買',tk:'',pk:'店前停車剩 6 席',bus:'9189 · 4 分鐘'},
+ {n:'白沙灣',c:'好玩',x:58,y:78,d:'3.1 km',i:'🏖️',r:4.5,rv:'5,870',tip:'日落前 1 小時最美，建議自備遮陽',tk:'',pk:'停車場剩 60 席',bus:'9189 · 15 分鐘'}];
+var favs=['屏東火車站 → 恆春古城','海生館'],orders=[];
+function renderDetail(){
+  var el=$('#detail'),p=pois.filter(function(x){return x.n===sel})[0];
+  if(!p){el.innerHTML='';return}
+  var fav=favs.indexOf(p.n)>-1;
+  el.innerHTML='<div class="card" style="margin-top:14px"><b style="font-size:18px">'+p.i+' '+p.n+'</b><p class="mute">⭐ '+p.r+'（'+p.rv+' 則評論）· '+p.c+' · '+p.d+'</p><p style="margin:10px 0">💡 '+p.tip+'</p><div class="pills"><span class="pill">🅿️ '+p.pk+'</span><span class="pill">🚌 '+p.bus+'</span></div><div class="btnrow" style="margin-top:12px"><button class="btn p" data-r2="'+p.n+'">怎麼去</button><button class="btn" data-f="'+p.n+'">'+(fav?'★ 已收藏':'☆ 收藏')+'</button><button class="btn" data-sh="1">分享</button>'+(p.tk?'<button class="btn" data-bk="'+p.n+'">預訂 '+p.tk+'</button>':'')+'</div></div>';
+  el.querySelector('[data-r2]').onclick=function(){show('route');document.querySelectorAll('#s-route input')[1].value=p.n;renderModes()};
+  el.querySelector('[data-f]').onclick=function(){toggleFav(p.n);renderDetail()};
+  el.querySelector('[data-sh]').onclick=function(){toast('已複製分享連結')};
+  var bk=el.querySelector('[data-bk]');if(bk)bk.onclick=function(){book(p.n+' '+p.tk)};
+}
+function toggleFav(k){var i=favs.indexOf(k);if(i>-1){favs.splice(i,1);toast('已取消收藏')}else{favs.push(k);toast('已加入收藏')}renderMe()}
+function book(t){orders.push(t);renderMe();toast('✅ 已預訂：'+t)}
+function renderMe(){
+  $('#favs').innerHTML=favs.length?favs.map(function(k){return '<div class="card row"><span aria-hidden="true">'+(k.indexOf('→')>-1?'🧭':'⭐')+'</span><div class="grow"><b>'+k+'</b><p class="mute">'+(k.indexOf('→')>-1?'常用路線 · 異常時通知':'收藏景點')+'</p></div></div>'}).join(''):'<p class="mute">尚無收藏</p>';
+  $('#orders').innerHTML=orders.length?orders.map(function(k){return '<div class="card row"><span aria-hidden="true">🎫</span><div class="grow"><b>'+k+'</b><p class="mute">已預訂 · 可於當日出示</p></div><span class="badge b-ok">成立</span></div>'}).join(''):'<p class="mute">尚無訂單，可到首頁「一日玩法」或景點頁預訂</p>';
+}
+var cat=cats[0],sel=null;
+function renderMap(){renderDetail();
+  $('#chips').innerHTML=cats.map(function(c){return '<button class="chip" aria-pressed="'+(c===cat)+'" data-c="'+c+'">'+c+'</button>'}).join('');
+  $('#chips').querySelectorAll('.chip').forEach(function(b){b.onclick=function(){cat=b.dataset.c;sel=null;renderMap()}});
+  var f=pois.filter(function(p){return cat==='離我最近'||p.c===cat}).sort(function(a,b){return parseFloat(a.d)-parseFloat(b.d)});
+  document.querySelectorAll('.pin').forEach(function(p){p.remove()});
+  f.forEach(function(p){var b=document.createElement('button');b.className='pin'+(sel===p.n?' on':'');b.style.left=p.x+'%';b.style.top=p.y+'%';b.innerHTML=p.i+' '+p.n;b.onclick=function(){sel=p.n;renderMap()};$('#map').appendChild(b)});
+  $('#listTitle').textContent=cat==='離我最近'?'離我最近':cat;
+  $('#list').innerHTML=f.map(function(p){return '<div class="card row"><span style="font-size:26px" aria-hidden="true">'+p.i+'</span><div class="grow"><b>'+p.n+'</b><p class="mute">'+p.c+' · 距離 '+p.d+'</p></div><button class="chip" data-r="'+p.n+'">怎麼去</button></div>'}).join('');
+  $('#list').querySelectorAll('[data-r]').forEach(function(b){b.onclick=function(){show('route');document.querySelectorAll('#s-route input')[1].value=b.dataset.r}});
+}
+$('#rand').onclick=function(){var p=pois[Math.floor(Math.random()*pois.length)];cat='離我最近';sel=p.n;renderMap();toast('🎲 今天推薦：'+p.n)};
+renderMap();
+
+/* 旅程 */
+var modes=[
+ {n:'台鐵 + 接駁公車',t:'2 小時 35 分',p:'NT$ 210',tag:'最省錢',c:'b-ok',legs:[['#0E6E7E',45],['#F2A93B',55]],d:'屏東站 → 枋寮 → 9189 接駁至墾丁'},
+ {n:'自駕',t:'2 小時 10 分',p:'油資約 NT$ 330',tag:'目前壅塞',c:'b-warn',legs:[['#D9534F',100]],d:'台1 → 台26，即時路況偏慢，停車場剩餘 120 席'},
+ {n:'客運直達',t:'2 小時 20 分',p:'NT$ 275',tag:'免轉乘',c:'b-mid',legs:[['#2E9B6A',100]],d:'屏東轉運站 → 墾丁，每 30 分鐘一班'}];
+var mi=0;
+function renderModes(){setTimeout(function(){if(window.updRt)updRt()},0);
+  $('#modes').innerHTML=modes.map(function(m,i){return '<button class="mode" aria-pressed="'+(i===mi)+'" data-i="'+i+'"><div class="row"><div class="grow"><b>'+m.n+'</b></div><span class="badge '+m.c+'">'+m.tag+'</span></div><div class="t">'+m.t+'</div><p class="mute">'+m.p+'</p><div class="legs">'+m.legs.map(function(l){return '<span style="background:'+l[0]+';flex:'+l[1]+'"></span>'}).join('')+'</div><p class="mute" style="margin-top:8px">'+m.d+'</p></button>'}).join('');
+  $('#modes').querySelectorAll('.mode').forEach(function(b){b.onclick=function(){mi=+b.dataset.i;renderModes()}});
+}
+var parks=['抵達後：墾丁站牌步行 5 分鐘到墾丁大街，不需停車','抵達後停車：墾丁大街停車場僅剩 12 席，建議改停白沙灣停車場（剩 60 席）後轉乘接駁','抵達後：客運站步行 8 分鐘到墾丁大街，不需停車'];
+function rtKey(){var i=document.querySelectorAll('#s-route input');return i[0].value+' → '+i[1].value}
+function updRt(){$('#park').innerHTML='<b>🅿️ 抵達與停車</b><p class="mute" style="margin-top:4px">'+parks[mi]+'</p>';$('#favRt').textContent=favs.indexOf(rtKey())>-1?'★ 已設為常用路線':'☆ 設為常用路線並通知'}
+$('#swap').onclick=function(){var i=document.querySelectorAll('#s-route input'),t=i[0].value;i[0].value=i[1].value;i[1].value=t;updRt()};
+$('#favRt').onclick=function(){toggleFav(rtKey());updRt()};
+renderModes();
+$('#start').onclick=function(){toast('Demo：開始導航（'+modes[mi].n+'）')};
+
+/* 交通 */
+var segs=['大眾運輸','即時路況','停車','CCTV'];
+var data=[
+ [['🚌','9189 恆春線 · 步行 3 分鐘','3 分鐘進站','b-ok'],['🚆','台鐵 屏東 → 枋寮','14:32 發車 · 可收藏此班次','b-ok'],['🚄','高鐵 左營站接駁','準點','b-ok'],['🚲','YouBike 屏東火車站','可借 18 輛','b-mid']],
+ [['🚗','國道3 麟洛 – 竹田','車速 82 km/h','b-ok'],['🚧','台1 枋寮路段','施工，單線通行','b-mid'],['⚠️','台26 恆春','事故，車速 20 km/h','b-warn']],
+ [['🅿️','屏東火車站停車場','剩餘 86 席','b-ok'],['🅿️','墾丁大街停車場','剩餘 12 席','b-warn'],['🅿️','海生館停車場','剩餘 140 席','b-ok']]];
+var si=0;
+var regions=['屏東市','潮州','枋寮','恆春','墾丁'];
+var cams={'屏東市':[['中正路與民生路口','市區路口','b-ok','順暢'],['屏東火車站前','車站周邊','b-mid','車多'],['國道3 麟洛交流道','國道','b-ok','順暢']],
+'潮州':[['潮州交流道','國道','b-ok','順暢'],['光復路與中山路口','市區路口','b-ok','順暢']],
+'枋寮':[['台1 枋寮路段','省道','b-mid','施工'],['枋寮火車站前','車站周邊','b-ok','順暢']],
+'恆春':[['台26 恆春','省道','b-warn','壅塞'],['恆春古城南門','景點周邊','b-mid','人潮多']],
+'墾丁':[['墾丁大街入口','景點周邊','b-warn','壅塞'],['白沙灣停車場出入口','停車場','b-ok','順暢'],['鵝鑾鼻路口','景點周邊','b-ok','順暢']]};
+var rg=regions[0],ci=0;
+function clock(){return new Date().toLocaleTimeString('zh-TW',{hour12:false})}
+function renderCCTV(){
+  var list=cams[rg],c=list[ci]||list[0];
+  var cars=[['#E8833A',58,0],['#F2F2F2',70,-2.5],['#2E9B6A',64,-5]].map(function(x){return '<span class="car" style="top:'+x[1]+'%;background:'+x[0]+';animation-delay:'+x[2]+'s"></span>'}).join('');
+  $('#tlist').innerHTML='<div class="chips" id="rgs">'+regions.map(function(r){return '<button class="chip" aria-pressed="'+(r===rg)+'" data-rg="'+r+'">'+r+'</button>'}).join('')+'</div>'
+  +'<div class="cctv" style="margin-top:12px" role="img" aria-label="CCTV 示意畫面：'+c[0]+'"><svg viewBox="0 0 400 210" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150 L400 120" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-dasharray="18 14"/></svg>'+cars+'<span class="live"><b>●</b> LIVE</span><span class="tm" id="ctime">'+clock()+'</span><span class="nm">'+c[0]+'</span></div>'
+  +'<div class="btnrow" style="margin:10px 0"><button class="btn" id="cfs">全螢幕</button><button class="btn" id="cfv">☆ 收藏此鏡頭</button></div>'
+  +'<h2 style="margin-top:8px">'+rg+'的鏡頭（'+list.length+'）</h2>'
+  +list.map(function(x,k){return '<button class="mode" aria-pressed="'+(k===ci)+'" data-ci="'+k+'" style="padding:12px 16px"><div class="row"><div class="grow"><b>📹 '+x[0]+'</b><p class="mute">'+x[1]+'</p></div><span class="badge '+x[2]+'">'+x[3]+'</span></div></button>'}).join('')
+  +'<p class="note">示意畫面，非真實影像</p>';
+  $('#rgs').querySelectorAll('.chip').forEach(function(b){b.onclick=function(){rg=b.dataset.rg;ci=0;renderCCTV()}});
+  $('#tlist').querySelectorAll('[data-ci]').forEach(function(b){b.onclick=function(){ci=+b.dataset.ci;renderCCTV()}});
+  $('#cfs').onclick=function(){toast('Demo：全螢幕觀看')};
+  $('#cfv').onclick=function(){toggleFav('CCTV '+c[0])};
+}
+setInterval(function(){var e=$('#ctime');if(e)e.textContent=clock()},1000);
+function navTo(n){show('route');document.querySelectorAll('#s-route input')[1].value=n;mi=1;renderModes();updRt();toast('已帶入導航：'+n)}
+function setSeg(i){si=i;$('#seg').innerHTML=segs.map(function(s,k){return '<button aria-pressed="'+(k===si)+'" data-k="'+k+'">'+s+'</button>'}).join('');
+  $('#seg').querySelectorAll('button').forEach(function(b){b.onclick=function(){setSeg(+b.dataset.k)}});
+  if(si===3){renderCCTV();return}
+  $('#tlist').innerHTML=data[si].map(function(r){return '<div class="card row"><span style="font-size:24px" aria-hidden="true">'+r[0]+'</span><div class="grow"><b>'+r[1]+'</b><p class="mute">'+r[2]+'</p></div><span class="badge '+r[3]+'">'+(r[3]==='b-ok'?'正常':r[3]==='b-warn'?'注意':'留意')+'</span>'+(si===2?'<button class="btn p" data-nav="'+r[1]+'">導航</button>':'')+'</div>'}).join('')+'<p class="note">示意資料，非即時資訊</p>';
+  $('#tlist').querySelectorAll('[data-nav]').forEach(function(b){b.onclick=function(){navTo(b.dataset.nav)}});}
+setSeg(0);
+
+/* 首頁預訂 / 借鏡標籤 */
+document.body.classList.add('show-src');
+$('#srcT').onchange=function(){document.body.classList.toggle('show-src',this.checked)};
+document.querySelectorAll('[data-b]').forEach(function(b){b.onclick=function(){book(b.dataset.b)}});
+document.querySelectorAll('[data-open]').forEach(function(b){b.onclick=function(){sel=b.dataset.open;cat='離我最近';show('map');renderMap()}});
+document.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){show(b.dataset.go)}});
+renderMe();
+/* 深色模式 */
+try{$('#dark').checked=matchMedia('(prefers-color-scheme: dark)').matches}catch(e){}
+$('#dark').onchange=function(){document.documentElement.setAttribute('data-theme',this.checked?'dark':'light')};
+</script>
+</body>
+</html>
