@@ -139,7 +139,7 @@ body.show-src .src{display:inline-block}
 
 <section class="screen" id="s-traffic" hidden>
   <h1>交通</h1>
-  <p class="mute">大眾運輸、路況與停車集中在這裡<span class="src">借鏡 香港出行易</span></p>
+  <p class="mute">公共運輸、路況與停車集中在這裡<span class="src">借鏡 香港出行易</span></p>
   <div class="seg" style="margin-top:14px" id="seg"></div>
   <div id="tlist" style="margin-top:14px"></div>
 </section>
@@ -255,7 +255,7 @@ renderModes();
 $('#start').onclick=function(){toast('Demo：開始導航（'+modes[mi].n+'）')};
 
 /* 交通 */
-var segs=['大眾運輸','即時路況','停車','CCTV'];
+var segs=['公共運輸','即時路況','停車','CCTV'];
 var data=[
  [['🚌','9189 恆春線 · 步行 3 分鐘','3 分鐘進站','b-ok'],['🚆','台鐵 屏東 → 枋寮','14:32 發車 · 可收藏此班次','b-ok'],['🚄','高鐵 左營站接駁','準點','b-ok'],['🚲','YouBike 屏東火車站','可借 18 輛','b-mid']],
  [['🚗','國道3 麟洛 – 竹田','車速 82 km/h','b-ok'],['🚧','台1 枋寮路段','施工，單線通行','b-mid'],['⚠️','台26 恆春','事故，車速 20 km/h','b-warn']],
